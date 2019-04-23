@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="这是关键字">
+    <meta name="description" content="这是内容描述">
+    <title>这是标题</title>
+    <link rel="icon" href="">
+    <style>
+        *{margin: 0;padding: 0;list-style: none}
+        #container{width: 800px;height: 500px;margin: 40px auto}
+        li{display:none;width: 300px;height: 100px;border: 1px solid #ff2e2e;line-height: 100px;text-align: center;font-size: 40px;font-weight: bold;color: #1d9fd3}
+        #container div{width: 50px;height: 50px;border-radius: 50%;background: #fd8c84;color: #f5f9ff;font-size: 12px;text-align: center;line-height: 50px;float: left;margin: 20px;cursor: pointer}
+        #container .on{background: yellow;color: #1E1E1E}
+    </style>
+</head>
+<body>
+<div id="container">
+    <ul id = 'uls'>
+        <li style="display: block">吃饭</li>
+        <li>睡觉</li>
+        <li>打豆豆</li>
+    </ul>
+    <div>第一天</div>
+    <div>第二天</div>
+    <div>第三天</div>
+</div>
+
+<script>
+    let container = document.getElementById('container');
+    let lis = container.getElementsByTagName('li');
+    container.onclick = function (ev) {
+        ev = ev || window.event;
+        var target = ev.target;
+        if (target.nodeName === 'DIV'){
+            for (var i = 0; i < lis.length; i++) {
+                lis[i].style.display = 'none';
+            }
+            console.log(preIndex(target));
+            lis[preIndex(target)-1].style.display = 'block' // -1 的目的 是获取了 ul这个标签
+        }else{
+            return;
+        }
+    };
+
+    function preIndex(cur) {
+        var arr = [];
+        var pre = cur.previousElementSibling;
+        console.log(pre);
+        while(pre){
+            arr.unshift(pre);
+            pre = pre.previousElementSibling;
+        }
+        return arr.length;
+    }
+</script>
+</body>
+</html>

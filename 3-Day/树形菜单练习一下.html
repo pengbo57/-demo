@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="这是关键字">
+    <meta name="description" content="这是内容描述">
+    <title>这是标题</title>
+    <link rel="icon" href="">
+    <style type="text/css">
+        .box {
+            width: 500px;
+            background: linear-gradient(45deg, #fd8c84, #00cc99, #60a3fb, cornsilk, lightgreen);
+        }
+
+        li span {
+            height: 30px;
+            display: inline-block;
+            line-height: 30px
+        }
+
+        li span.close:before {
+            content: '+';
+            font-size: 20px;
+            font-weight: bold;
+            color: red;
+        }
+
+        li span.open:before {
+            content: '-';
+            font-size: 30px;
+            color: blueviolet;
+        }
+    </style>
+</head>
+<body>
+<ul class="box" id="box">
+    <li><span>第一级菜单</span>
+        <ul>
+            <li><span>第二级菜单</span>
+                <ul>
+                    <li><span>第三级菜单</span>
+                        <ul>
+                            <li><span>第四级菜单</span></li>
+                            <li><span>第四级菜单</span></li>
+                        </ul>
+                    </li>
+                    <li><span>第三级菜单</span></li>
+                    <li><span>第三级菜单</span></li>
+                    <li><span>第三级菜单</span></li>
+                </ul>
+            </li>
+            <li><span>第二级菜单</span>
+                <ul>
+                    <li><span>第三级菜单</span></li>
+                    <li><span>第三级菜单</span></li>
+                    <li><span>第三级菜单</span></li>
+                    <li><span>第三级菜单</span></li>
+                </ul>
+            </li>
+            <li><span>第二级菜单</span>
+            </li>
+            <li><span>第二级菜单</span></li>
+        </ul>
+    </li>
+    <li><span>第一级菜单</span></li>
+    <li><span>第一级菜单</span></li>
+    <li><span>第一级菜单</span></li>
+</ul>
+
+<script>
+    let box = document.getElementById('box'),
+        span = box.getElementsByTagName('span');
+    for (let i = 0; i < span.length; i++) {
+        var cur = span[i].nextElementSibling;
+        if (cur && cur.nodeName === 'UL') {
+            span[i].classList.add('close');
+            cur.style.display = 'none';
+        } else {
+            span[i].classList.add('open');
+        }
+    }
+    box.onclick = function (e) {
+        e = e || window.event;
+        e.target = e.target || e.srcElement;
+        var next = e.target.nextElementSibling;
+        if (next) {
+            if (e.target.className === 'close') {
+                e.target.className = 'open';
+                next.style.display = 'block';
+            } else if (e.target.className === 'open') {
+                var oUl = box.getElementsByTagName('ul');
+                for (var i = 0; i < oUl.length; i++) {
+                    var cur = oUl[i];
+                    cur.style.display = 'none';
+                    cur.previousElementSibling.className = 'close';
+                }
+                next.style.display = 'none';
+                e.target.className = 'close';
+            }
+        }
+
+    }
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="这是关键字">
+    <meta name="description" content="这是内容描述">
+    <title>这是标题</title>
+    <link rel="icon" href="">
+    <style type="text/css">
+        #box{
+            width: 200px;
+            height: 200px;
+            background: #60a3fb;
+        }
+        #box1{
+            width: 100px;
+            height: 100px;
+            background: #000;
+        }
+        #box2{
+            width: 50px;
+            height: 50px;
+            background: #83c44e;
+        }
+    </style>
+</head>
+<body>
+
+<div id ='box'>
+    <div id = 'box1'>
+        <div id="box2"></div>
+    </div>
+</div>
+<script>
+    box.onclick = function (e) {
+        if (e.target.id === 'box1') {//只有当我点击第二个 才会触发
+            console.log(123);
+        }
+        if (e.target.id === 'box2') {//只有当我点击第三个 才会触发
+            console.log(111);
+        }
+    }
+
+</script>
+</body>
+</html>

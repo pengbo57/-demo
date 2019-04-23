@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="这是关键字">
+    <meta name="description" content="这是内容描述">
+    <title>这是标题</title>
+    <link rel="icon" href="">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            position: relative;
+            width: 100%;
+            height: 100%
+        }
+
+        .box {
+            width: 80px;
+            height: 80px;
+            background: tomato;
+            border-radius: 50%;
+            position: absolute;
+            top: 100px;
+            cursor: move;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="box"></div>
+<script>
+    var box = document.getElementById('box');
+    var maxL = document.documentElement.clientWidth - box.offsetWidth;
+    var maxT = document.documentElement.clientHeight - box.offsetHeight;
+
+    box.onmousedown = function (e) {
+        //记录鼠标当前的位置
+        this.curX = e.clientX;
+        this.curY = e.clientY;
+        this.curL = parseFloat(getComputedStyle(box).left);
+        this.curT = parseFloat(getComputedStyle(box).top);
+        var that = this;
+        document.body.onmousemove = function (e) {
+            move.call(that, e)
+        };
+        document.body.onmouseup = function (e) {
+            up.call(that, e);
+        }
+    };
+
+    function move(e) {
+        var tempL = e.clientX - this.curX;
+        var tempT = e.clientY - this.curY;
+        var l = this.curL + tempL;
+        var t = this.curT + tempT;
+
+        if (l <= 0) {
+            l = 0;
+        }
+        if (t <= 0) {
+            t = 0;
+        }
+        if (l >= maxL) {
+            l = maxL;
+        }
+        if (t >= maxT) {
+            t = maxT;
+        }
+
+        this.style.left = l + 'px';
+        this.style.top = t + 'px';
+        getSpeed.call(this);
+    }
+
+    function up(e) {
+        document.body.onmousemove = null;
+        document.body.onmouseup = null;
+        drop.call(this);//改变this的指向 box
+        fly.call(this);
+    }
+
+    // 自由落体的运动
+    var maxY = document.documentElement.clientHeight - box.offsetHeight;
+
+    function drop() {
+        if (!this.dropSpeed) { // 第一次执行 渠道的值是undefined
+            this.dropSpeed = 1;
+        } else { // 以后进来每次执行else
+            this.dropSpeed += 3;
+        }
+        this.dropSpeed *= 0.99;
+        var curT = this.offsetTop + this.dropSpeed;
+        if (curT >= maxY) {
+            this.dropSpeed *= -1;
+            this.style.top = maxY + 'px';
+            this.flag++;
+        } else {
+            this.style.top = curT + 'px';
+            this.flag = 1;
+        }
+        if (this.flag > 2) {
+            clearInterval(this.dropTimer);
+        } else {
+            this.dropTimer = setTimeout(drop.bind(this), 17);
+        }
+    }
+
+    function fly() {
+        this.flySpeed *= 0.99;
+        var temp = this.offsetLeft + this.flySpeed;
+        if (temp >= maxL) {
+            this.style.left = maxL + 'px';
+            this.flySpeed *= -1;
+        } else if (temp <= 0) {
+            this.style.left = 0 + 'px';
+            this.flySpeed *= -1;
+        } else {
+            this.style.left = temp + 'px';
+        }
+        if (Math.abs(this.flySpeed) < 0.5) {
+            clearInterval(this.flyTimer)
+        } else {
+            this.flyTimer = setTimeout(fly.bind(this), 17);
+        }
+    }
+
+    function getSpeed() {
+        if (!this.pre) { // 第一次执行 渠道的值是undefined
+            this.pre = this.offsetLeft;
+        } else { // 以后进来每次执行else
+            this.flySpeed = this.offsetLeft - this.pre;
+            this.pre = this.offsetLeft;
+        }
+    }
+
+</script>
+</body>
+</html>

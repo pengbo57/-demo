@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="这是关键字">
+    <meta name="description" content="这是内容描述">
+    <title>这是标题</title>
+    <link rel="icon" href="">
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            margin: 20px auto
+        }
+
+        #outer {
+            width: 400px;
+            height: 400px;
+            background-color: #83c44e;
+        }
+
+        #inner {
+            width: 250px;
+            height: 250px;
+            background-color: #fd8c84;
+        }
+
+        #center {
+            width: 100px;
+            height: 100px;
+            background-color: #ff6700;
+        }
+    </style>
+</head>
+<body>
+<div id="outer">
+    <div id="inner">
+        <div id="center"></div>
+    </div>
+</div>
+<script>
+    let outer = document.getElementById('outer'),
+        inner = document.getElementById('inner'),
+        center = document.getElementById('center');
+
+    // 事件的委托
+        // 利用了冒泡传播原理: 给最外层的元素绑定方法; 根据事件源的不同判断,执行不同的操作
+
+
+
+
+   /*  outer.onclick = function(){
+         console.log(1);
+     }
+    inner.onclick = function(){
+        console.log(2);
+    }
+    center.onclick = function(){
+        console.log(3);
+    }*/
+    document.body.onmouseout = function (e) {
+        //可以根据事件源来判断当前点击的是哪个元素
+        console.log('out',e.target);
+        switch (e.target.id) {
+            case  'center':
+                console.log(3);
+                break;
+            case  'inner':
+                console.log(2);
+                break;
+            case  'outer':
+                console.log(1);
+                break;
+       }
+    }
+
+
+
+</script>
+</body>
+</html>

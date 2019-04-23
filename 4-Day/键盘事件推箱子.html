@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="这是关键字">
+    <meta name="description" content="这是内容描述">
+    <title>这是标题</title>
+    <link rel="icon" href="">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+        }
+
+        #box {
+            position: absolute;
+            left: 300px;
+            top: 200px;
+            width: 100px;
+            height: 100px;
+            background-color: #ff2e2e;
+            text-align: center;
+            line-height: 100px;
+        }
+    </style>
+</head>
+<body>
+<div id='box'>推箱子</div>
+<script>
+    var box = document.getElementById('box');
+    window.onkeydown = function (ev) {
+        var l = parseFloat(getComputedStyle(box).left);
+        var t = parseFloat(getComputedStyle(box).top);
+        var maxL = document.body.clientWidth - box.offsetWidth;
+        var maxT = document.body.clientHeight - box.offsetHeight;
+        ev = ev || window.event;
+        switch (ev.keyCode) {
+            case 37:
+                l -= 10;
+                if (l <= 0) {
+                    l = 0;
+                }
+                break;
+            case 38:
+                t -= 10;
+                if (t <= 0) {
+                    t = 0;
+                }
+                break;
+            case 39:
+                l += 10;
+                if (l >= maxL) {
+                    l = maxL;
+                }
+                break;
+            case 40:
+                t += 10;
+                if (t >= maxT) {
+                    t = maxT;
+                }
+                break;
+        }
+        box.style.left = l + 'px';
+        box.style.top = t + 'px';
+    }
+
+</script>
+</body>
+</html>
